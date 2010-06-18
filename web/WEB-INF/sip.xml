@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE sip-app PUBLIC "-//Java Community Process//DTD SIP Application 1.0//EN" "http://www.jcp.org/dtd/sip-app_1_0.dtd">
+
+<sip-app>
+    <servlet>
+        <servlet-name>MessageSipServlet</servlet-name>
+        <servlet-class>hu.messaging.service.MessageSipServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessageSipServlet</servlet-name>
+        <pattern>
+            <or>
+                <equal ignore-case="false">
+                    <var>request.method</var>
+                    <value>BYE</value>
+                </equal>
+                <equal ignore-case="false">
+                    <var>request.method</var>
+                    <value>ACK</value>
+                </equal>
+                <equal ignore-case="false">
+                    <var>request.method</var>
+                    <value>MESSAGE</value>
+                </equal>
+                <equal ignore-case="false">
+                    <var>request.method</var>
+                    <value>INVITE</value>
+                </equal>
+            </or>
+        </pattern>
+    </servlet-mapping>
+    <proxy-config>
+        <sequential-search-timeout>0</sequential-search-timeout>
+    </proxy-config>
+</sip-app>
