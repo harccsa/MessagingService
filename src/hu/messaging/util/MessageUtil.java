@@ -3,7 +3,11 @@ package hu.messaging.util;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import org.apache.log4j.Logger;
+
 public class MessageUtil {
+	
+	private static Logger log = Logger.getLogger(MessageUtil.class);
 	
 	public static String getLocalIPAddress() {
 		InetAddress internetAddress = null;
@@ -22,7 +26,7 @@ public class MessageUtil {
 				address.append('.');
 		}
 		
-		System.out.println("getlocalIP return: " + address.toString());
+		log.info("getLocalIp return: " + address.toString());
 		return address.toString();
 	
 	}

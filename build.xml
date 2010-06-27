@@ -109,14 +109,4 @@
     <copy file="${service.warfile}" todir="${autodeploy.dir}" />
   </target> 
 
-<target name="undeploy">
-    <wldeploy
-      action="undeploy" verbose="true" debug="true"
-      name="PersonalAssistant"
-      user="weblogic" password="weblogic"
-      adminurl="t3://localhost:7001" targets="myserver"
-      failonerror="false" />
-  </target>
-
-
 </project>
