@@ -4,28 +4,31 @@
 	<description>MessagingService build script</description>
 	
 	<property environment="env" />
-
-	<property name="project.dir" location="${basedir}" />
-	<property name="res.dir" location="${project.dir}/etc" />
-	<property name="weblogic.dir" location="C:\bea\sipserver31" />
-	<property name="domain" value="ericsson.com" />
-	<property file="build.properties" />
 	
+	<property file="build.properties" />
+		
+	<property name="project.dir" location="${basedir}" />
+	<property name="weblogic.dir" location="${wlss.home}\sipserver31" />
+
 	<!-- set global properties for this build -->
-	<property name="autodeploy.dir" value="C:\bea\user_projects\domains\${domain}\autodeploy" />	
+	<property name="autodeploy.dir" value="${wlss.home}\user_projects\domains\${wlss.domain}\autodeploy" />	
 	<property name="src.dir" location="src" />
 	<property name="build.dir" location="build" />
 	<property name="dist.dir" location="dist" />
 	<property name="web.dir" location="web" />
-	<property name="lib.dir" location="${web.dir}/WEB-INF/lib" />
+	<property name="lib.dir" location="lib" />
+	<property name="web.web-inf.lib.dir" location="${web.dir}/WEB-INF/lib" />
 	
 	<property name="service.warname" value="MessagingService.war"/>
 	<property name="service.warfile" value="${dist.dir}/${service.warname}"/>
 
 	<path id="lib.class.path">
-		<fileset dir="${lib.dir}">
+		<fileset dir="${web.web-inf.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
+		<fileset dir="${lib.dir}">
+				<include name="**/*.jar" />
+			</fileset>
 		<fileset dir="${weblogic.dir}\server\lib\wlss">
 			<include name="sipservlet.jar" />
 		</fileset>
@@ -40,7 +43,6 @@
 	</path>
 
 	<target name="clean" description="clean up">
-		<!-- Delete the ${build} and ${dist} directory trees -->
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
 	</target>
@@ -57,7 +59,6 @@
 	</target>
 
 	<target name="compile" depends="init" description="compile the source ">
-	
 		<!-- Compile the java code from ${src.dir} into the web directory. -->
 		<echo>Compiling web classes from ${src.dir} to ${build.dir}/WEB-INF/classes</echo>
 		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes">
@@ -95,17 +96,6 @@
 	</target>
 
  <target name="deploy" depends="dist">
- <!--   <wldeploy action="deploy"
-      source="dist/PersonalAssistant.war"
-      name="PersonalAssistant"
-      user="weblogic"
-      password="weblogic"
-      verbose="true"
-      nostage="true"
-      adminurl="t3://localhost:7001"
-      targets="myserver"
-    />
-    -->
     <copy file="${service.warfile}" todir="${autodeploy.dir}" />
   </target> 
 
