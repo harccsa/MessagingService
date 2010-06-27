@@ -1,7 +1,10 @@
 package hu.messaging.service;
 
+import javax.servlet.sip.SipApplicationSession;
 import javax.servlet.sip.SipServlet;
 import javax.servlet.sip.SipFactory;
+import javax.servlet.sip.SipSession;
+
 import java.io.IOException;
 import javax.servlet.sip.SipServletRequest;
 import javax.servlet.ServletException;
@@ -53,33 +56,49 @@ public class MessageSipServlet extends SipServlet {
 	 * @inheritDoc
 	 */
 	protected void doMessage(SipServletRequest req)	throws ServletException, IOException {
-		log.debug("debug logging tesztelés!!");
+		
+		System.out.println("doMessage calling...");
 		log.info("Incoming message: " + req.getContent() );
 		log.info("to: " + req.getTo());
 		log.info("from: " + req.getFrom());
 		log.info("User-Agent: " + req.getHeader("User-Agent"));
 		log.info("Accept-Contact: " + req.getHeader("Accept-Contact"));
 		req.createResponse(200).send();
-		
-		SipServletRequest messageRequest = sipFactory.createRequest(req.getApplicationSession(), "MESSAGE", req.getTo(), req.getFrom());
-        
-		messageRequest.pushRoute(sipFactory.createSipURI(null, MessageUtil.getLocalIPAddress() + ":5082"));
-//                messageRequest.addHeader("Accept-Contact", req.getHeader("Accept-Contact"));
-//                messageRequest.addHeader("User-Agent", req.getHeader("User-Agent"));
 
-        // Set the message content.
-        messageRequest.setContent("Hello " + req.getContent(), "text/plain");
-        
-        messageRequest.addHeader("p-asserted-identity", "sip:helloworld@ericsson.com");
+/*		if (true) {
+			final SipSession session = req.getSession();
+*/			
+			SipServletRequest messageRequest = sipFactory.createRequest(req, false);
+			messageRequest.setRequestURI(sipFactory.createSipURI("alice", "ericsson.com"));
+			
+			messageRequest.pushRoute(sipFactory.createSipURI(null, MessageUtil.getLocalIPAddress() + ":5082"));
+//	                messageRequest.addHeader("Accept-Contact", req.getHeader("Accept-Contact"));
+//	                messageRequest.addHeader("User-Agent", req.getHeader("User-Agent"));
 
-       	// Send the request
-       	messageRequest.send();
+	        // Set the message content.
+	        messageRequest.setContent("Hello " + req.getContent(), "text/plain");
+	        
+	        messageRequest.addHeader("p-asserted-identity", "sip:helloworld@ericsson.com");
+
+	       	// Send the request
+	       	messageRequest.send();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected void doInvite(SipServletRequest sipServletRequest) throws ServletException, IOException {
-		//TODO: Implement this method
+	protected void doInvite(SipServletRequest req) throws ServletException, IOException {
+		log.info("doInvite calling...");
+		log.info("Invite from: " + req.getFrom() );
+		
+		if (req.isInitial()) {
+			req.createResponse(200).send();
+			log.debug("INVITE is initial! Sending 200 OK:" + req.getFrom());
+		}
+		else {
+			req.createResponse(403).send();
+			log.debug("INVITE is not initial! Sending 403:" + req.getFrom());
+		}
+		
 	}
 }
