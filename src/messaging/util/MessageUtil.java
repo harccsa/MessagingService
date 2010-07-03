@@ -1,4 +1,4 @@
-package hu.messaging.util;
+package messaging.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

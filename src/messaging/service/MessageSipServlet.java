@@ -1,9 +1,7 @@
-package hu.messaging.service;
+package messaging.service;
 
-import javax.servlet.sip.SipApplicationSession;
 import javax.servlet.sip.SipServlet;
 import javax.servlet.sip.SipFactory;
-import javax.servlet.sip.SipSession;
 
 import java.io.IOException;
 import javax.servlet.sip.SipServletRequest;
@@ -11,9 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletConfig;
 
+import messaging.util.MessageUtil;
+
 import org.apache.log4j.Logger;
 
-import hu.messaging.util.MessageUtil;
 
 public class MessageSipServlet extends SipServlet {
 
@@ -47,9 +46,11 @@ public class MessageSipServlet extends SipServlet {
 	/**
 	 * @inheritDoc
 	 */
-	protected void doAck(SipServletRequest sipServletRequest)
-			throws ServletException, IOException {
-		//TODO: Implement this method
+	protected void doAck(SipServletRequest req)	throws ServletException, IOException {
+		//log.info("doAck calling...");
+		System.out.println("doAck calling...");
+		System.out.println("Ack from: " + req.getFrom() );
+		System.out.println("session callId: " + req.getCallId());
 	}
 
 	/**
@@ -88,16 +89,21 @@ public class MessageSipServlet extends SipServlet {
 	 * @inheritDoc
 	 */
 	protected void doInvite(SipServletRequest req) throws ServletException, IOException {
-		log.info("doInvite calling...");
-		log.info("Invite from: " + req.getFrom() );
+//		log.info("doInvite calling...");
+//		log.info("Invite from: " + req.getFrom() );
+		
+		System.out.println("doInvite calling...");
+		System.out.println("Invite from: " + req.getFrom() );
+		System.out.println("session callId: " + req.getCallId());
 		
 		if (req.isInitial()) {
 			req.createResponse(200).send();
-			log.debug("INVITE is initial! Sending 200 OK:" + req.getFrom());
+			//log.debug("INVITE is initial! Sending 200 OK:" + req.getFrom());
+			System.out.println("INVITE is initial! Sending 200 OK:" + req.getFrom());
 		}
 		else {
 			req.createResponse(403).send();
-			log.debug("INVITE is not initial! Sending 403:" + req.getFrom());
+			//log.debug("INVITE is not initial! Sending 403:" + req.getFrom());
 		}
 		
 	}

@@ -4,7 +4,7 @@
 <sip-app>
     <servlet>
         <servlet-name>MessageSipServlet</servlet-name>
-        <servlet-class>hu.messaging.service.MessageSipServlet</servlet-class>
+        <servlet-class>messaging.service.MessageSipServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
