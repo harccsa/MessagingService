@@ -3,12 +3,12 @@
 
 <sip-app>
     <servlet>
-        <servlet-name>MessageSipServlet</servlet-name>
-        <servlet-class>messaging.service.MessageSipServlet</servlet-class>
+        <servlet-name>MessagingSipServlet</servlet-name>
+        <servlet-class>messaging.service.MessagingSipServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>MessageSipServlet</servlet-name>
+        <servlet-name>MessagingSipServlet</servlet-name>
         <pattern>
             <or>
                 <equal ignore-case="false">
