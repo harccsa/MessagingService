@@ -1,17 +1,17 @@
 package messaging.sip;
 
-import javax.servlet.sip.SipServlet;
-import javax.servlet.sip.SipFactory;
-
 import java.io.IOException;
-import javax.servlet.sip.SipServletRequest;
-import javax.servlet.ServletException;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletConfig;
 
-import org.apache.log4j.Logger;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.sip.SipFactory;
+import javax.servlet.sip.SipServlet;
+import javax.servlet.sip.SipServletRequest;
 
 import messaging.util.MessagingUtil;
+
+import org.apache.log4j.Logger;
 
 
 public class MessagingSipServlet extends SipServlet {
@@ -28,18 +28,18 @@ public class MessagingSipServlet extends SipServlet {
 	 * @inheritDoc
 	 */
 	public void init(ServletConfig config) throws ServletException {
-
 		super.init(config);
 		ServletContext context = config.getServletContext();
-		sipFactory = (SipFactory) context.getAttribute("javax.servlet.sip.SipFactory");
-
+		sipFactory = (SipFactory) context.getAttribute(SipServlet.SIP_FACTORY);
+		
+		MessagingUtil.init(getInitParameter("vms-sip-uri"));
+		
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	protected void doBye(SipServletRequest sipServletRequest)
-			throws ServletException, IOException {
+	protected void doBye(SipServletRequest sipServletRequest) throws ServletException, IOException {
 		//TODO: Implement this method
 	}
 

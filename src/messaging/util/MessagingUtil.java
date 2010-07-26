@@ -22,6 +22,17 @@ public class MessagingUtil {
 
 	private static String vmsSipURI;
 
+	public static void init(String vmsSipUri) {
+		if ("localhost".equals(	vmsSipUri.substring(vmsSipUri.indexOf("@") + 1, 
+								vmsSipUri.indexOf("@") + 1 + "localhost".length()))) {
+			
+				vmsSipURI = vmsSipUri.replaceAll("localhost", getLocalIPAddress());
+		}
+		else {
+			vmsSipURI = vmsSipUri;
+		}
+	}
+	
 	public static String getBaseUrl() {
 		return BASE_URL;
 	}

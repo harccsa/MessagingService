@@ -4,7 +4,13 @@
 <sip-app>
     <servlet>
         <servlet-name>MessagingSipServlet</servlet-name>
-        <servlet-class>messaging.service.MessagingSipServlet</servlet-class>
+        <servlet-class>messaging.sip.MessagingSipServlet</servlet-class>
+        <init-param>                
+			<param-name>vms-sip-uri</param-name>
+			<param-value>sip:dialog@localhost:5070</param-value>
+			<description>Sip uri for voice xml interpreter. (dialog@host:port)</description>
+		</init-param>
+        
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
